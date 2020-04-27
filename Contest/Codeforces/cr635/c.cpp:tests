@@ -1,0 +1,14 @@
+[
+	{
+		"test": "abab\nba\n"
+	},
+	{
+		"test": "defineintlonglong\nsignedmain\n"
+	},
+	{
+		"test": "rotator\nrotator\n"
+	},
+	{
+		"test": "cacdcdbbbb\nbdcaccdbbb\n"
+	}
+]

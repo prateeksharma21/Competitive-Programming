@@ -1,0 +1,11 @@
+[
+	{
+		"test": "4\nabba\nabacaba\nbcd\ner\n"
+	},
+	{
+		"test": "5\nx\nxx\nxxa\nxxaa\nxxaaa\n"
+	},
+	{
+		"test": "3\nc\ncb\ncba\n"
+	}
+]
