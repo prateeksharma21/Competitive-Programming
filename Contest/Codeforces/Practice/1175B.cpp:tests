@@ -1,0 +1,11 @@
+[
+	{
+		"test": "9\nadd\nfor 43\nend\nfor 10\nfor 15\nadd\nend\nadd\nend\n"
+	},
+	{
+		"test": "2\nfor 62\nend\n"
+	},
+	{
+		"test": "11\nfor 100\nfor 100\nfor 100\nfor 100\nfor 100\nadd\nend\nend\nend\nend\nend\n"
+	}
+]
