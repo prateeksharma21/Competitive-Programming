@@ -60,24 +60,17 @@ void test(){
    c /= 4;
    ff -= c;
    ff = c+ff/3;
-   // cout << ff << ' ' << c<< '\n';
    vector<int> el = {ff};
    string s = binary(ff);
    int l = s.length();
    vector<string> ss,tt;
    for(int i=l-2;i>=0;i-=2){
       string t = s.substr(i,2);
-      // cout << t << '\n';
-      // cout << "map " << mp[t][0] << ' ' << mp[t][1] << '\n';
       ss.pb(mp[t][0]);
       tt.pb(mp[t][1]);
    }
    el.pb(to_int(ss));
    el.pb(to_int(tt));
-   // reverse(all(ss));
-   // reverse(all(tt));
-   // cout << s << '\n';
-   // cout << ss << '\n';
    n--;
    cout << el[n%3] << '\n';
    return;
