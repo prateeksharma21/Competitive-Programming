@@ -68,4 +68,8 @@ public:
     {
         return b * a;
     }
+
+    T dot(Point2D A,Point2D B){
+        return A.x*B.x+A.y*B.y;
+    }
 };
