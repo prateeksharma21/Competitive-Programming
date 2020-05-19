@@ -8,27 +8,11 @@ using namespace std;
 #define int ll
 using ll = long long;
 using pii = pair<int,int>;
-const int MOD = 998244353, N = 3e3 + 10; 
+const int MOD = 998244353 , N = 3e3 + 10; 
 
 string s,t;
-int n,m;
 int dp[N][N];
-
-int dfs(int l,int r){
-   if(l>r) return 1;
-   int &ans = dp[l][r];
-   if(ans != -1) return ans;
-   ans = 0;
-   if(l>=m or s[r-l] == t[l]){
-      ans += dfs(l+1,r);
-      ans %= MOD;
-   }
-   if(r>=m or s[r-l] == t[r]){
-      ans += dfs(l,r-1);
-      ans %= MOD;
-   }
-   return ans;
-}
+int n,m;
 
 int32_t main(){
    ios::sync_with_stdio(false);
@@ -36,10 +20,32 @@ int32_t main(){
    cin >> s >> t;
    n = s.length();
    m = t.length();
-   memset(dp,-1,sizeof dp);
+   s = '*'+s;
+   t = '*'+t;
+   for(int i=m;i<=n;i++){
+      if(i>m or s[i] == t[m]){
+         dp[i][0] = 1;
+      }
+      if(s[i] == t[1]){
+         dp[i][1] = 1;
+      }
+   }
+   for(int i=n;i>1;i--){
+      for(int j=0;j<=n-i+1;j++){
+         if(j+1>m or s[i-1] == t[j+1]){
+            dp[i-1][j+1] += dp[i][j];
+            dp[i-1][j+1] %= MOD;
+         }
+         int one = j+i-1;
+         if(one>m or s[i-1] == t[one]){
+            dp[i-1][j] += dp[i][j];
+            dp[i-1][j] %= MOD;
+         }
+      }
+   }
    int ans = 0;
-   f(i,m-1,n){
-      ans += dfs(0,i);
+   for(int j=0;j<=n;j++){
+      ans += dp[1][j];
       ans %= MOD;
    }
    cout << ans << '\n';
