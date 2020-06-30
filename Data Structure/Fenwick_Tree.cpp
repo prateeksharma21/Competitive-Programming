@@ -28,10 +28,10 @@ struct Fenwick{
       return query(r)-query(l-1);
    }
 
-   void update(int ind,ll val){
-      while(ind<n){
-         bit[ind] += val;
-         ind = ind | (ind+1);
+   void update(int i,T val){
+      while(i < n){
+         bit[i] += val;
+         i = i | (i+1);
       }
    }
 
