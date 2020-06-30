@@ -8,7 +8,7 @@ struct SegTree{
       this->A = a;
       this->t.assign(4*n,0);
       this->lazy.assign(4*n,0);
-      build(1,1,n-1);
+      build(1,0,n-1);
    }
 
    int fun(int a,int b){
@@ -51,7 +51,7 @@ struct SegTree{
 
    int query(int v, int tl, int tr, int l, int r) {
       if (l > r)
-        return LLONG_MIN;
+        return ;
       if (l <= tl && tr <= r)
         return t[v];
       push(v);
