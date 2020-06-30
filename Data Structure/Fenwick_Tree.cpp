@@ -1,36 +1,42 @@
-struct FenwickTree{
+template<class T>
+struct Fenwick{
    int n;
-   vector<ll> fenw;
+   vector<T> bit;
 
-   FenwickTree(int n){
+   Fenwick(int n){
       this->n = n;
-      fenw.assign(n,0);
+      bit.assign(n,0);
    }
 
-   FenwickTree(vector<ll> a) : FenwickTree((int)a.size()){
-      f(i,0,(int)a.size()){
+   Fenwick(vector<T> a) : Fenwick((int)a.size()){
+      for(int i = 0; i < int(a.size()); ++i){
          update(i,a[i]);
       }
    }
 
-   ll sum(int r){
-      ll res = 0;
+   T query(int r){
+      T res = 0;
       while(r>=0){
-         res += fenw[r];
+         res += bit[r];
          r = r&(r+1);
          r--;
       }
       return res;
    }
 
-   ll sum(int l,int r){
-      return sum(r)-sum(l-1);
+   T query(int l,int r){
+      return query(r)-query(l-1);
    }
 
    void update(int ind,ll val){
       while(ind<n){
-         fenw[ind] += val;
+         bit[ind] += val;
          ind = ind | (ind+1);
       }
+   }
+
+   void range_add(int l,int r,int val){
+      update(l,val);
+      update(r+1,-val);
    }
 };
