@@ -1,4 +1,10 @@
-#include<bits/stdc++.h>
+#ifdef Prateek
+   #include "Prateek.h"
+#else
+   #include <bits/stdc++.h>
+   #define debug(...) 21
+#endif
+
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
  
@@ -27,7 +33,7 @@ using pll = pair < ll, ll >;
 const double PI = acos(-1);
 const ll LINF = LLONG_MAX;
 const int MOD = 1e9+7, INF = INT_MAX, N = 1e5 + 10;
- 
+
 void testcases();
 
 int32_t main(){
