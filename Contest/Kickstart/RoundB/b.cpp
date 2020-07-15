@@ -17,17 +17,19 @@ int32_t main(){
    cin >> tt;
    f(_,1,tt+1){
       cout << "Case #" << _ << ": ";
-      int n;
-      cin >> n;
+      int n,d;
+      cin >> n >> d;
       vector<int> a(n);
       f(i,0,n){
          cin >> a[i];
       }
-      int ans = 0;
-      f(i,1,n-1){
-         if(a[i]>a[i-1] and a[i]>a[i+1]) ans++;
+      int nxt = d;
+      for(int i=n-1;i>=0;i--){
+         int k = nxt/a[i];
+         a[i] = k*a[i];
+         nxt = a[i];
       }
-      cout << ans << '\n';
+      cout << a[0] << '\n';
    }
    return 0;
 }
