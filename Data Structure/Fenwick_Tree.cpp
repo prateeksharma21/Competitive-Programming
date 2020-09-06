@@ -35,7 +35,7 @@ struct Fenwick{
       }
    }
 
-   void range_add(int l,int r,int val){
+   void range_add(int l,int r,T val){
       update(l,val);
       update(r+1,-val);
    }
