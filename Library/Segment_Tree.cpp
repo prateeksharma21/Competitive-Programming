@@ -1,9 +1,17 @@
-struct SegTree{
-   vector<int> t,lazy;
-   vector<int> A;
+template <typename T>
+class SegTree{
+public:
+   vector<T> t,lazy;
+   vector<T> A;
    int n;
 
-   SegTree(vector<int> a){
+   SegTree(int n){
+      this->n = n;
+      this->t.assign(4*n+10,0);
+      this->lazy.assign(4*n+10,0);
+   }
+
+   SegTree(vector<T> a){
       this->n = a.size();
       this->A = a;
       this->t.assign(4*n,0);
@@ -11,7 +19,7 @@ struct SegTree{
       build(1,0,n-1);
    }
 
-   int fun(int a,int b){
+   T fun(T a,T b){
       
    }
 
@@ -34,7 +42,7 @@ struct SegTree{
       lazy[v] = 0;
    }
 
-   void update(int v, int tl, int tr, int l, int r, int addend) {
+   void update(int v, int tl, int tr, int l, int r, T addend) {
       if (l > r) 
          return;
       if (l == tl && tr == r) {
@@ -49,9 +57,9 @@ struct SegTree{
       }
    }
 
-   int query(int v, int tl, int tr, int l, int r) {
+   T query(int v, int tl, int tr, int l, int r) {
       if (l > r)
-        return ;
+        return ; // Value
       if (l <= tl && tr <= r)
         return t[v];
       push(v);
@@ -60,19 +68,19 @@ struct SegTree{
                query(v*2+1, tm+1, tr, max(l, tm+1), r));
    }
 
-   void update(int l,int r,int val){
+   void update(int l,int r,T val){
       update(1,0,n-1,l,r,val);
    }
 
-   void update(int i,int val){
+   void update(int i,T val){
       update(i,i,val);
    }
 
-   int query(int l,int r){
+   T query(int l,int r){
       return query(1,0,n-1,l,r);
    }
 
-   int query(int i){
+   T query(int i){
       return query(i,i);
    }
 };
