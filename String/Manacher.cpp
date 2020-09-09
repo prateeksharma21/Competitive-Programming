@@ -4,10 +4,10 @@ pair<vector<int>,vector<int>> Manacher(const string & s){
    int l = 0, r = -1;
    for(int i = 0; i < n; ++i){
       Odd[i] = 1;
-      if( i <= r ){
+      if(i <= r){
          Odd[i] = min(Odd[r-i+l],r-i+1);
       }
-      while( i - Odd[i] >= 0 and i + Odd[i] < n and s[i - Odd[i]] == s[i + Odd[i]]){
+      while(i-Odd[i] >= 0 and i+Odd[i] < n and s[i-Odd[i]] == s[i+Odd[i]]){
          ++Odd[i];
       }
       if(i+Odd[i]-1 > r){
