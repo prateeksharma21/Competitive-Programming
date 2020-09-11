@@ -11,22 +11,22 @@ pair<vector<int>,vector<int>> Manacher(const string & s){
          ++Odd[i];
       }
       if(i+Odd[i]-1 > r){
-         l = i-(Odd[i]-1);
-         r = i+(Odd[i]-1);
+         l = i-Odd[i]+1;
+         r = i+Odd[i]-1;
       }
    }
    vector<int> Even(n);
    l = 0, r = -1;
    for(int i = 0; i < n; ++i){
       if(i <= r){
-         Even[i] = min(Even[r-i+l],r-i+1);
+         Even[i] = min(Even[r-i+l+1],r-i+1);
       }
       while(i-Even[i]-1 >= 0 and i+Even[i] < n and s[i-Even[i]-1] == s[i+Even[i]]){
          ++Even[i];
       }
       if(i+Even[i]-1 > r){
-         l = i - (Even[i]-1);
-         r = i + (Even[i]-1);
+         l = i-Even[i];
+         r = i+Even[i]-1;
       }
    }
    return {Odd,Even};
