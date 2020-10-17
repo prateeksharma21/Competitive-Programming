@@ -5,6 +5,10 @@ vector<bool> visited;
 vector<int> tin, low;
 int timer;
 
+void IS_BRIDGE(int u, int v) {
+    // processes the bridge multiple times
+} 
+
 void dfs(int v, int p = -1) {
     visited[v] = true;
     tin[v] = low[v] = timer++;

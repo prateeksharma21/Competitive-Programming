@@ -1,9 +1,7 @@
 int to_int(string s){
-   int ans = 0,c = 1;
-   reverse(all(s));
-   for(auto &e : s){
-      ans += (e-'0')*c;
-      c *= 10;
+   int ans = 0;
+   for(char c : s) {
+      ans = ans*10 + (e - '0');
    }
    return ans;
 }
