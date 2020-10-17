@@ -1,4 +1,13 @@
-bool is_prime(uint64_t n) {
+bool is_prime(int x) {
+   for(int i = 2; i <= sqrt(x); ++i) {
+      if(x % i == 0) {
+         return false;
+      }
+   }
+   return true;
+}
+
+bool is_prime_unk(uint64_t n) {
   if (n < 2) {
     return false;
   }
