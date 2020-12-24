@@ -1,64 +1,58 @@
-struct LCA{
-   vector<vector<int>> G,parent;
-   vector<int> tin,tout,depth;
-   int timer;
+class LCA {
+public:
+   vector<vector<int>> g, parent;
+   vector<int> depth;
    int n;
    int LG;
 
-   LCA(vector<vector<int>> G,int R = 1){
-      this->G = G;
-      this->n = G.size();
-      this->LG = log2(n)+1;
-      this->timer = 0;
-      tin.assign(n,0);
-      tout.assign(n,0);
-      depth.assign(n,0);
-      tin[0] = ++timer;
-      parent = vector<vector<int>>(n,vector<int>(LG));
-      dfs(R);
-      tout[0] = ++timer;
+   LCA (vector<vector<int>> g, int root = 1) {
+      this->g = g;
+      this->n = g.size();
+      this->LG = log2(n) + 1;
+      this->depth = vector<int> (n);
+      this->parent = vector<vector<int>> (n, vector<int>(LG));
+      dfs (root);
       compute();
    }
 
-   void dfs(int u,int p = 0,int d = 0){
+   void dfs (int u, int p = 0) {
       parent[u][0] = p;
-      tin[u] = ++timer;
-      depth[u] = d;
-      for(auto &v : G[u]){
-         if(v!=p){
-            dfs(v,u,d+1);
+      for (auto v : g[u]) {
+         if (v != p) {
+            depth[v] = depth[u] + 1;
+            dfs (v, u);
          }
       }
-      tout[u] = ++timer;
    }
 
-   void compute(){
-      for(int j=1;j<LG;j++){
-         for(int i=1;i<n;i++){
-            if(parent[i][j-1]){
-               parent[i][j] = parent[parent[i][j-1]][j-1];
+   void compute () {
+      for (int j = 1; j < LG; ++j) {
+         for (int i = 1; i < n; ++i) {
+            if (parent[i][j - 1]) {
+               parent[i][j] = parent[parent[i][j - 1]][j - 1];
             }
          }
       }
    }
 
-   bool is_anc(int u,int v){
-      return tin[u]<=tin[v] and tout[v]<=tout[u];
-   }
-
-   int lca(int u,int v){
-      if(is_anc(u,v)) return u;
-      if(is_anc(v,u)) return v;
-      for(int i=LG-1;i>=0;i--){
-         if(!is_anc(parent[u][i],v)){
-            u = parent[u][i];
+   int lca (int u, int v) {
+      if (depth[v] > depth[u]) swap(u, v);
+      for (int j = LG - 1; j >= 0; --j) {
+         if (depth[u] - depth[v] >= (1 << j)) {
+            u = parent[u][j];
          }
       }
-      u = parent[u][0];
-      return u;
+      if (u == v) return u;
+      for (int j = LG - 1; j >= 0; --j) {
+         if (parent[u][j] != parent[v][j]) {
+            u = parent[u][j];
+            v = parent[v][j];
+         }
+      }
+      return parent[u][0];
    }
 
-   int dist(int u,int v){
-      return depth[u]+depth[v]-2*depth[lca(u,v)];
+   int dist (int u, int v) {
+      return depth[u] + depth[v] - 2 * depth[lca(u, v)];
    }
 };
