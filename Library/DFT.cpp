@@ -1,3 +1,6 @@
+using cd = complex<double>;
+const double PI = acos(-1);
+
 void fft (vector<cd> &A, bool invert) {
    int n = A.size();
    int lg = log2(n);
