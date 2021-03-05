@@ -2,7 +2,8 @@
 *
 
 # Unignore all with extensions
-!*.*
+!*.cpp*
+!*.py*
 
 # Unignore all dirs
 !*/
