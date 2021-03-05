@@ -1,0 +1,17 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+# Ignore selected dirs
+
+.vscode
+.bin
+CP.code-workspace
+*/a.out
+*.cpp__tests
+*.exe
