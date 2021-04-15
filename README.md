@@ -1,2 +1,2 @@
 # Competitive Programming
-This Repository contains various Algorithms implemented by me.
+This Repository contains various Algorithms implementation by me.
