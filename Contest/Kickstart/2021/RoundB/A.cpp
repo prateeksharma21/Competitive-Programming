@@ -10,31 +10,22 @@
 using ll = long long;
 const int MOD = 1e9+7, N = 1e5 + 10;
 
-void test(){
+void Solve() {
    int n;
    cin >> n;
    string s;
    cin >> s;
-   vector<int> t, m;
-   for (int i = 0; i < n; ++i) {
-      if (s[i] == 'T') {
-         t.push_back(i);
+   cout << 1 << ' ';
+   int cur = 1;
+   for (int i = 1; i < n; ++i) {
+      if (s[i] > s[i - 1]) {
+         ++cur;
       } else {
-         m.push_back(i);
+         cur = 1;
       }
+      cout << cur << ' ';
    }
-   if (t.size() != 2 * m.size()) {
-      cout << "NO\n";
-      return;
-   }
-   int sz = m.size();
-   for (int i = 0; i < sz; ++i) {
-      if (m[i] < t[i] or m[i] > t[i + sz]) {
-         cout << "NO\n";
-         return;
-      }
-   }
-   cout << "YES\n";
+   cout << '\n';
    return;
 }
 
@@ -44,7 +35,8 @@ int32_t main(){
    int tt = 1;
    cin >> tt;
    for (int t = 1; t <= tt; ++t) {
-      test();
+      cout << "Case #" << t << ": ";
+      Solve();
    }
    return 0;
 }
