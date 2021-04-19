@@ -10,19 +10,29 @@
 using ll = long long;
 const int MOD = 1e9+7, N = 1e5 + 10;
 
-int v(char c) {
-   if (c == 'T') return 0;
-   return 1;
-}
-
 void test(){
    int n;
    cin >> n;
    string s;
    cin >> s;
-   set<int> p[2];
+   vector<int> t, m;
    for (int i = 0; i < n; ++i) {
-      p[v(s[i])].insert(i);
+      if (s[i] == 'T') {
+         t.push_back(i);
+      } else {
+         m.push_back(i);
+      }
+   }
+   if (t.size() != 2 * m.size()) {
+      cout << "NO\n";
+      return;
+   }
+   int sz = m.size();
+   for (int i = 0; i < sz; ++i) {
+      if (m[i] < t[i] or m[i] > t[i + sz]) {
+         cout << "NO\n";
+         return;
+      }
    }
    cout << "YES\n";
    return;
