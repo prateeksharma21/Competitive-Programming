@@ -16,3 +16,5 @@ CP.code-workspace
 */a.out
 *.cpp__tests
 *.exe
+*__Good.cpp
+*__Generator.cpp
