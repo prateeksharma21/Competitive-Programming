@@ -9,8 +9,8 @@ private:
 public:
    SegTree (int n, const F& f, int Base) : op(f), BASE(Base) {
       this->n = n;
-      this->t.assign(4 * n + 10, 0);
-      this->lazy.assign(4 * n + 10, 0);
+      this->t.assign(4 * n + 10, Base);
+      this->lazy.assign(4 * n + 10, Base);
    }
 
    SegTree (vector<T> a, const F& f, int Base) : SegTree(a.size(), f, Base) {
