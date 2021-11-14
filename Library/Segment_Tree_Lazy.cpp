@@ -1,81 +1,87 @@
 template <typename T, class F = function<T(const T&, const T&)>>
 class SegTree{
 private:
-   vector<T> t, lazy, A;
-   int n;
+   int _n, sz, lg;
+   vector<T> t, lz;
    T BASE;
    F op;
-
+   T e() {return BASE;}
+   void apply(int k) {
+      t[k] = op(t[2 * k], t[2 * k + 1]);
+   }
+   void add(int k, int val) {
+      t[k] += val;
+      if (k < sz) lz[k] += val;
+   }
+   void push(int k) {
+      add(2 * k, lz[k]);
+      add(2 * k + 1, lz[k]);
+      lz[k] = 0; 
+   }
 public:
-   SegTree (int n, const F& f, int Base) : op(f), BASE(Base) {
-      this->n = n;
-      this->t.assign(4 * n + 10, Base);
-      this->lazy.assign(4 * n + 10, Base);
-   }
-
-   SegTree (vector<T> a, const F& f, int Base) : SegTree(a.size(), f, Base) {
-      this->A = a;
-      build (1, 0, n - 1);
-   }
-
-   void build (int v,int tl,int tr){
-      if (tl == tr) {
-         t[v] = A[tl];
-      } else {
-         int tm = (tl + tr) / 2;
-         build (v << 1, tl, tm);
-         build (v << 1 | 1, tm + 1, tr);
-         t[v] = op (t[v << 1], t[v << 1 | 1]);
+   SegTree(int n, const F& f, int Base) : SegTree(vector<T>(n, Base), f, Base) {}
+   SegTree (vector<T> a, const F& f, int Base) : op(f), BASE(Base), _n(a.size()) {
+      lg = 0;
+      while ((1U << lg) < _n) ++lg;
+      sz = 1 << lg;
+      t = vector<T>(2 * sz, e());
+      lz = vector<T>(sz, 0);
+      for (int i = 0; i < _n; ++i) t[sz + i] = a[i];
+      for (int i = sz - 1; i >= 1; --i) {
+         apply(i);
       }
    }
-
-   void push (int v) {
-      t[v << 1] += lazy[v];
-      lazy[v << 1] += lazy[v];
-      t[v << 1 | 1] += lazy[v];
-      lazy[v << 1 | 1] += lazy[v];
-      lazy[v] = 0;
+   void set(int p, int v) {
+      p += sz;
+      for (int i = lg; i >= 1; --i) push(p >> i);
+      t[p] = v;
+      for (int i = 1; i <= lg; ++i) apply(p >> i); 
    }
-
-   void update (int v, int tl, int tr, int l, int r, T addend) {
-      if (l > r) return;
-      if (l == tl && tr == r) {
-         t[v] += addend;
-         lazy[v] += addend;
-      } else {
-         push (v);
-         int tm = (tl + tr) / 2;
-         update (v << 1, tl, tm, l, min(r, tm), addend);
-         update (v << 1 | 1, tm + 1, tr, max(l, tm + 1), r, addend);
-         t[v] = op (t[v << 1], t[v << 1 | 1]);
+   T query(int p) {
+      p += sz;
+      for (int i = lg; i >= 1; --i) push(p >> i);
+      return t[p];
+   }
+   T query(int l, int r) {
+      ++r;
+      l += sz;
+      r += sz;
+      for (int i = lg; i >= 1; --i) {
+         if (((l >> i) << i) != l) push(l >> i);
+         if (((r >> i) << i) != r) push((r - 1) >> i);
       }
-   }
-
-   T query (int v, int tl, int tr, int l, int r) {
-      if (l > r) {
-         return BASE;
+      T L = e(), R = e();
+      while (l < r) {
+         if (l & 1) L = op(L, t[l++]);
+         if (r & 1) R = op(t[--r], R);
+         l >>= 1;
+         r >>= 1;
       }
-      if (l <= tl && tr <= r)
-         return t[v];
-      push (v);
-      int tm = (tl + tr) / 2;
-      return op (query (v << 1, tl, tm, l, min(r, tm)), 
-                 query (v << 1 | 1, tm+1, tr, max(l, tm+1), r));
+      return op(L, R);
    }
-
-   void update (int l, int r, T val){
-      update (1, 0, n-1, l, r, val);
+   void update(int p, T val) {
+      p += sz;
+      for (int i = lg; i >= 1; --i) push(p >> i);
+      t[p] += val;
+      for (int i = 1; i <= lg; ++i) apply(p >> i);
    }
-
-   void update (int i, T val) {
-      update (i, i, val);
-   }
-
-   T query (int l,int r) {
-      return query (1, 0, n-1, l, r);
-   }
-
-   T query (int i) {
-      return query (i, i);
+   void update(int l, int r, int val) {
+      l += sz, r += sz + 1;
+      for (int i = lg; i >= 1; --i) {
+         if (((l >> i) << i) != l) push(l >> i);
+         if (((r >> i) << i) != r) push((r - 1) >> i);
+      }
+      int l2 = l, r2 = r;
+      while (l < r) {
+          if (l & 1) add(l++, val);
+          if (r & 1) add(--r, val);
+          l >>= 1;
+          r >>= 1;
+      }
+      l = l2, r = r2;
+      for (int i = 1; i <= lg; i++) {
+         if (((l >> i) << i) != l) apply(l >> i);
+         if (((r >> i) << i) != r) apply((r - 1) >> i);
+     }
    }
 };
